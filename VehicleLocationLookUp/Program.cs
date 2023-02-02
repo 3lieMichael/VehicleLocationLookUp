@@ -4,7 +4,7 @@
 using System.Diagnostics;
 using VehicleLocationLookUp;
 
-var stopwatch = new Stopwatch();
+Stopwatch stopwatch = new ();
 
 stopwatch.Start();
 
@@ -15,6 +15,7 @@ stopwatch.Stop();
 Console.ForegroundColor = ConsoleColor.Green;
 Console.WriteLine($"Total elapsed time: {stopwatch.Elapsed}");
 Console.ForegroundColor = ConsoleColor.White;
+
 foreach (var record in vehicles)
 {
     Console.WriteLine($"PositionId: {record.PositionId}, Distance: {record.Distance.ToString("0.00")}");

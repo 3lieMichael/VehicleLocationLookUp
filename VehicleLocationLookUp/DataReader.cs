@@ -9,12 +9,11 @@ namespace VehicleLocationLookUp
     {
         public static ConcurrentBag<Record> ReadDataFromFile()
         {
-            Stopwatch stopwatch = new Stopwatch();
+            Stopwatch stopwatch = new ();
             stopwatch.Start();
 
-            // File path
             string filePath = "VehiclePositions.dat";
-            var records = new ConcurrentBag<Record>();
+            ConcurrentBag<Record> records = new ();
 
             // Create a memory-mapped file from the .dat file
             using var mmf = MemoryMappedFile.CreateFromFile(filePath, FileMode.Open);
@@ -34,7 +33,7 @@ namespace VehicleLocationLookUp
                     int chunkStart = 0;
                     int chunkEnd = chunkSize;
 
-                    var tasks = new List<Task>();
+                    List<Task> tasks = new ();
 
                     while (chunkStart < data.Length)
                     {
@@ -45,7 +44,7 @@ namespace VehicleLocationLookUp
                         var task = Task.Run(() =>
                         {
                             // Create a BinaryReader from the memory-mapped view
-                            using BinaryReader reader = new BinaryReader(new MemoryStream(chunk));
+                            using BinaryReader reader = new (new MemoryStream(chunk));
                             // Read the contents of the file
                             while (reader.BaseStream.Position != reader.BaseStream.Length)
                             {
@@ -87,7 +86,7 @@ namespace VehicleLocationLookUp
 
         private static string ReadStringUntilNull(BinaryReader reader)
         {
-            var stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new ();
             byte currentByte = reader.ReadByte();
             while (currentByte != 0)
             {
@@ -96,17 +95,5 @@ namespace VehicleLocationLookUp
             }
             return stringBuilder.ToString();
         }
-
-        //static string ReadNullTerminatedString(BinaryReader reader)
-        //{
-        //    List<byte> stringBytes = new List<byte>();
-        //    byte currentByte = reader.ReadByte();
-        //    while (currentByte != 0)
-        //    {
-        //        stringBytes.Add(currentByte);
-        //        currentByte = reader.ReadByte();
-        //    }
-        //    return System.Text.Encoding.ASCII.GetString(stringBytes.ToArray());
-        //}
     }
 }
