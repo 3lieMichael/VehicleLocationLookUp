@@ -4,8 +4,13 @@ namespace VehicleLocationLookUp
 {
     internal class LocationLookUp
     {
-        public static List<VehicleDistance> FindClosestLocation(Dictionary<string, List<Record>> vehicleGroups)
+        public static List<VehicleDistance>? FindClosestLocation(Dictionary<string, List<Record>>? vehicleGroups)
         {
+            if (vehicleGroups == null)
+            {
+                return null;
+            }
+
             Stopwatch stopwatch = new ();
 
             stopwatch.Start();

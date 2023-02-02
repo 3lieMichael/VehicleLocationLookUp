@@ -7,12 +7,20 @@ namespace VehicleLocationLookUp
 {
     internal static class DataReader
     {
-        public static ConcurrentBag<Record> ReadDataFromFile()
+        public static ConcurrentBag<Record>? ReadDataFromFile()
         {
             Stopwatch stopwatch = new ();
             stopwatch.Start();
 
             string filePath = "VehiclePositions.dat";
+
+            if (!File.Exists(filePath))
+            {
+                stopwatch.Stop();
+                Console.WriteLine($"{filePath} does not exists . . .");
+                return null;
+            }
+
             ConcurrentBag<Record> records = new ();
 
             // Create a memory-mapped file from the .dat file

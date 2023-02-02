@@ -6,8 +6,13 @@ namespace VehicleLocationLookUp
 {
     internal static class DataOrganizer
     {
-        public static Dictionary<string, List<Record>> DataToClasters(List<Record> vehicles)
+        public static Dictionary<string, List<Record>>? DataToClasters(List<Record>? vehicles)
         {
+            if (vehicles == null)
+            {
+                return null;
+            }
+
             Stopwatch stopwatch = new ();
 
             stopwatch.Start();
