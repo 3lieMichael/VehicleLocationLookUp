@@ -1,12 +1,11 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics;
-using System.Text;
 
 namespace VehicleLocationLookUp
 {
     internal static class DataOrganizer
     {
-        public static Dictionary<string, List<Record>>? DataToClasters(List<Record>? vehicles)
+        public static Dictionary<string, List<Record>>? DataToClusters(List<Record>? vehicles)
         {
             if (vehicles == null)
             {
@@ -19,25 +18,20 @@ namespace VehicleLocationLookUp
 
             ConcurrentDictionary<string, List<Record>> dict = new ();
 
-            Parallel.ForEach(vehicles, vehicle =>
+            Parallel.For(0, vehicles.Count, i =>
             {
-                StringBuilder keyBuilder = new ();
-                keyBuilder.Append(vehicle.Latitude.ToString("0.0"));
-                keyBuilder.Append(",");
-                keyBuilder.Append(vehicle.Longitude.ToString("0.0"));
-
-                dict.AddOrUpdate(keyBuilder.ToString(),
-                    addValue: new List<Record> { vehicle },
+                dict.AddOrUpdate($"{vehicles[i].Latitude:0.0},{vehicles[i].Longitude:0.0}",
+                    addValue: new List<Record> { vehicles[i] },
                     updateValueFactory: (existingKey, existingValue) =>
                     {
-                        existingValue.Add(vehicle);
+                        existingValue.Add(vehicles[i]);
                         return existingValue;
                     });
             });
 
             stopwatch.Stop();
 
-            Console.WriteLine($"Elapsed time for data claster: {stopwatch.Elapsed}");
+            Console.WriteLine($"Elapsed time for data cluster: {stopwatch.Elapsed}");
 
             return new Dictionary<string, List<Record>>(dict);
         }

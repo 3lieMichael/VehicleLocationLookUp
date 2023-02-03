@@ -8,7 +8,7 @@ Stopwatch stopwatch = new ();
 
 stopwatch.Start();
 
-var vehicles = LocationLookUp.FindClosestLocation(DataOrganizer.DataToClasters(DataReader.ReadDataFromFile()?.ToList()));
+var vehicles = LocationLookUp.FindClosestLocation(DataOrganizer.DataToClusters(DataReader.ReadDataFromFile()?.ToList()));
 
 stopwatch.Stop();
 

@@ -7,7 +7,7 @@ namespace VehicleLocationLookUp
 {
     internal static class DataReader
     {
-        public static ConcurrentBag<Record>? ReadDataFromFile()
+        public static ConcurrentQueue<Record>? ReadDataFromFile()
         {
             Stopwatch stopwatch = new ();
             stopwatch.Start();
@@ -21,7 +21,7 @@ namespace VehicleLocationLookUp
                 return null;
             }
 
-            ConcurrentBag<Record> records = new ();
+            ConcurrentQueue<Record> records = new ();
 
             // Create a memory-mapped file from the .dat file
             using var mmf = MemoryMappedFile.CreateFromFile(filePath, FileMode.Open);
@@ -58,7 +58,7 @@ namespace VehicleLocationLookUp
                             {
                                 try
                                 {
-                                    records.Add(new Record()
+                                    records.Enqueue(new Record()
                                     {
                                         PositionId = reader.ReadInt32(),
                                         VehicleRegistration = ReadStringUntilNull(reader),

@@ -32,7 +32,7 @@ namespace VehicleLocationLookUp
 
             foreach (var position in positions)
             {
-                var vehicles = vehicleGroups[$"{position.Latitude.ToString("0.0")},{position.Longitude.ToString("0.0")}"];
+                var vehicles = vehicleGroups[$"{position.Latitude:0.0},{position.Longitude:0.0}"];
                 var closestVehicle = vehicles[0];
                 var vehicleDistance = 0.0;
 
